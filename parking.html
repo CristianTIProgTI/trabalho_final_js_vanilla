@@ -7,6 +7,36 @@
     <link rel="shortcut icon" href="img\Martz90-Hex-Car.24.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .vaga-span {
+            width: 100px;
+            height: 50px;
+            background-color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        .btn-custom {
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .vaga-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
     <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
@@ -30,27 +60,116 @@
           </div>
         </div>
       </header>
+
+      
+      
+      <div class="col-md-7 col-lg-12 mx-auto form-container">
+        <h4 class="mb-3">
+          <span class="material-symbols-outlined">
+          attach_money
+          </span>
+          VALOR POR HORA
+          <span class="material-symbols-outlined">
+            attach_money
+            </span>
+        </h4>
+
+        <form class="needs-validation" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6 mx-auto">
+              <div class="form-row">
+                <label for="valor" class="form-label">R$</label>
+                <input type="text" class="form-control" id="valor" placeholder="0,00" required>
+              </div>
+              <div class="invalid-feedback" id="invalid-feedback">
+                Digitar o valor por hora.
+              </div>
+            </div>
+          </div>          
+        </form>
+    </div>
+
+    <script>
+        function validateCurrencyInput(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (!value) {
+                document.getElementById('invalid-feedback').classList.add('show');
+                input.setCustomValidity('Invalid');
+                return;
+            }
+            value = (value / 100).toFixed(2) + '';
+            value = value.replace(".", ",");
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            input.value = value;
+            input.setCustomValidity('');
+            document.getElementById('invalid-feedback').classList.remove('show');
+        }
+
+        document.getElementById('valor').addEventListener('input', function (e) {
+            validateCurrencyInput(e.target);
+        });
+
+        document.getElementById('valor').addEventListener('blur', function (e) {
+            validateCurrencyInput(e.target);
+        });
+    </script>
+
       <div class="col-lg-6 col-xxl-4 my-5 mx-auto">
-        <div class="d-grid gap-2">
-          <button class="btn btn-outline-secondary" type="button">
-            <span class="material-symbols-outlined">
+        <div class="btn-container mb-3">
+          <button id="AdVaga" class="btn btn-primary btn-custom" type="button">
+            <span class="material-symbols-outlined me-1">
             add_circle
             </span>
             Adicionar vaga
           </button>
-
-          <button class="btn btn-primary" type="button">
-            <span class="material-symbols-outlined">
-            delete
-            </span>
-            Remover vaga
-          </button>
-
         </div>
+          
+        <div id="vaga" class="d-flex flex-column align-items-start py-5">            
+            <div class="vaga-container">
+                <button class="btn btn-warning btn-custom" type="button" onclick="removerVaga(this)">
+                    <span class="material-symbols-outlined me-1">
+                    delete
+                    </span>
+                    Remover vaga
+                </button>
+                <span class="vaga-span">1</span> 
+            </div>
+        </div>
+
+        <script>    
+            let vagaCount = 1; // Inicializa o contador de vagas a partir de 1
+
+            // Adicionar vaga
+            const buttonAd = document.getElementById('AdVaga');
+            buttonAd.addEventListener('click', function() {
+              const parentElement = document.getElementById('vaga');
+              const vagaContainer = document.createElement('div');
+              vagaContainer.className = 'vaga-container';
+
+              const newElement = document.createElement('span');
+              vagaCount++; // Incrementa o contador
+              newElement.className = 'vaga-span'; // Adiciona a classe ao novo span
+              newElement.textContent = vagaCount; // Define o texto do span como o número da vaga
+
+              const removeButton = document.createElement('button');
+              removeButton.className = 'btn btn-warning btn-custom';
+              removeButton.type = 'button';
+              removeButton.innerHTML = '<span class="material-symbols-outlined me-1">delete</span> Remover vaga';
+              removeButton.onclick = function() {
+                removerVaga(removeButton);
+              };
+
+              vagaContainer.appendChild(removeButton);
+              vagaContainer.appendChild(newElement);
+              parentElement.appendChild(vagaContainer);  
+            });
+
+            function removerVaga(button) {
+              const vagaContainer = button.parentElement;
+              vagaContainer.remove();
+            }
+        </script>
       </div>
-
-
-    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
