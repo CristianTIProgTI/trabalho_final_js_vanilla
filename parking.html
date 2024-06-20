@@ -20,11 +20,27 @@
             margin-bottom: 10px;
             font-size: 1.5em;
         }
+        .vaga-status {
+            width: 90px;
+            height: 40px;
+            background-color: lightgreen;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            font-size: 1.1em;
+        }
         .btn-custom {
             width: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .form-container {
+            background-color: #8a8a8a;
+            padding: 20px;
+            border-radius: 0px;
+            text-align: center;
         }
         .vaga-container {
             display: flex;
@@ -35,6 +51,34 @@
         .btn-container {
             display: flex;
             justify-content: space-between;
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .form-label {
+            margin-right: 10px;
+        }
+        .form-control {
+            max-width: 200px;
+        }
+        .invalid-feedback {
+            display: none;
+            text-align: center;
+            color: red;
+            font-size: 0.9em;
+        }
+        .invalid-feedback.show {
+            display: block;
+        }
+        #cronometro {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .btn-crono {
+            margin: 5px;
         }
     </style>
 </head>
@@ -61,8 +105,6 @@
         </div>
       </header>
 
-      
-      
       <div class="col-md-7 col-lg-12 mx-auto form-container">
         <h4 class="mb-3">
           <span class="material-symbols-outlined">
@@ -80,6 +122,7 @@
               <div class="form-row">
                 <label for="valor" class="form-label">R$</label>
                 <input type="text" class="form-control" id="valor" placeholder="0,00" required>
+                <button id="ok-button" class="btn btn-primary" type="button">OK</button>
               </div>
               <div class="invalid-feedback" id="invalid-feedback">
                 Digitar o valor por hora.
@@ -90,6 +133,8 @@
     </div>
 
     <script>
+        const valorPorHora = {};
+
         function validateCurrencyInput(input) {
             let value = input.value.replace(/\D/g, '');
             if (!value) {
@@ -105,12 +150,31 @@
             document.getElementById('invalid-feedback').classList.remove('show');
         }
 
+        function storeInputValue() {
+            const inputValue = document.getElementById('valor').value;
+            if (inputValue && !document.getElementById('invalid-feedback').classList.contains('show')) {
+                valorPorHora.valor = inputValue;
+                console.log(valorPorHora); // Para verificação no console
+            }
+        }
+
         document.getElementById('valor').addEventListener('input', function (e) {
             validateCurrencyInput(e.target);
         });
 
         document.getElementById('valor').addEventListener('blur', function (e) {
             validateCurrencyInput(e.target);
+        });
+
+        document.getElementById('ok-button').addEventListener('click', function () {
+            storeInputValue();
+        });
+
+        document.getElementById('valor').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                storeInputValue();
+            }
         });
     </script>
 
@@ -132,7 +196,8 @@
                     </span>
                     Remover vaga
                 </button>
-                <span class="vaga-span">1</span> 
+                <span class="vaga-span">1</span>
+                <div class="vaga-status">✔️ LIVRE</div>
             </div>
         </div>
 
@@ -151,6 +216,10 @@
               newElement.className = 'vaga-span'; // Adiciona a classe ao novo span
               newElement.textContent = vagaCount; // Define o texto do span como o número da vaga
 
+              const statusElement = document.createElement('div');
+              statusElement.className = 'vaga-status';
+              statusElement.textContent = '✔️ LIVRE';
+
               const removeButton = document.createElement('button');
               removeButton.className = 'btn btn-warning btn-custom';
               removeButton.type = 'button';
@@ -161,6 +230,7 @@
 
               vagaContainer.appendChild(removeButton);
               vagaContainer.appendChild(newElement);
+              vagaContainer.appendChild(statusElement);
               parentElement.appendChild(vagaContainer);  
             });
 
@@ -170,7 +240,67 @@
             }
         </script>
       </div>
+      <div class="container text-center mt-5">
+        <div id="cronometro">00:00:00</div>
+        <button id="start" class="btn btn-success btn-crono"><span class="material-symbols-outlined">
+          play_circle
+          </span>Iniciar</button>
+        <button id="pause" class="btn btn-warning btn-crono"><span class="material-symbols-outlined">
+          stop_circle
+          </span>Finalizar</button>
+        <button id="reset" class="btn btn-danger btn-crono"><span class="material-symbols-outlined">
+          payments
+          </span>Pagar</button>
+    </div>
+    <script>
+      let hours = 0;
+      let minutes = 0;
+      let seconds = 0;
+      let interval = null;
 
+      function updateDisplay() {
+          const cronometro = document.getElementById('cronometro');
+          const hrs = hours < 10 ? '0' + hours : hours;
+          const min = minutes < 10 ? '0' + minutes : minutes;
+          const sec = seconds < 10 ? '0' + seconds : seconds;
+          cronometro.textContent = `${hrs}:${min}:${sec}`;
+      }
+
+      function startTimer() {
+          if (interval) return; // Evita múltiplos intervalos
+
+          interval = setInterval(() => {
+              seconds++;
+              if (seconds === 60) {
+                  seconds = 0;
+                  minutes++;
+              }
+              if (minutes === 60) {
+                  minutes = 0;
+                  hours++;
+              }
+              updateDisplay();
+          }, 1000);
+      }
+
+      function pauseTimer() {
+          clearInterval(interval);
+          interval = null;
+      }
+
+      function resetTimer() {
+          pauseTimer();
+          hours = 0;
+          minutes = 0;
+          seconds = 0;
+          updateDisplay();
+      }
+
+      document.getElementById('start').addEventListener('click', startTimer);
+      document.getElementById('pause').addEventListener('click', pauseTimer);
+      document.getElementById('reset').addEventListener('click', resetTimer);
+  </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

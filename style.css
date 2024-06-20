@@ -1,26 +1,4 @@
-.form-container {
-    background-color: #8a8a8a;
-    padding: 20px;
-    border-radius: 0px;
-    text-align: center;
-}
-.form-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.form-label {
-    margin-right: 10px;
-}
-.form-control {
-    max-width: 200px;
-}
-.invalid-feedback {
-    display: none;
-    text-align: center;
-    color: red;
-    font-size: 0.9em;
-}
-.invalid-feedback.show {
-    display: block;
-}
+
+
+
+
