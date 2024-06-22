@@ -10,19 +10,19 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .vaga-span {
-            width: 100px;
-            height: 50px;
+            width: 200px;
+            height: 100px;
             background-color: green;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             margin-bottom: 10px;
-            font-size: 1.5em;
+            font-size: 2em;
         }
         .vaga-status {
-            width: 90px;
-            height: 40px;
+            width: 150px;
+            height: 50px;
             background-color: lightgreen;
             display: flex;
             justify-content: center;
@@ -31,7 +31,7 @@
             font-size: 1.1em;
         }
         .btn-custom {
-            width: 200px;
+            width: 250px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -46,7 +46,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 40px;
+            position: relative;
+            background-color: #b3b3b3;
+            padding: 20px;
+            border-radius: 10px;
         }
         .btn-container {
             display: flex;
@@ -77,10 +81,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: baseline;
             background-color: #d3d3d3;
             padding: 10px;
             height: 50px; /* Altura ajustada para incluir cronômetro e total a pagar */
+            border-radius: 5px;
         }
         #cronometro {
             font-size: 1.5em;
@@ -96,6 +101,7 @@
             padding: 5px;
             text-align: center;
             margin-top: 10px; /* Espaçamento superior para afastar do cronômetro */
+            border-radius: 5px;
         }
         .total-pagar-container span {
             font-size: 1.2em;
@@ -107,6 +113,28 @@
             pointer-events: none;
             opacity: 0.65;
         }
+        .alert-message {
+            display: none;
+            color: red;
+            font-size: 0.9em;
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+        }
+        .alert-message.show {
+            display: block;
+        }
+        .alert-pay {
+            bottom: -40px; /* Ajuste para garantir que a mensagem apareça abaixo do botão "Pagar" */
+            
+        }
+        .btn-IniFin {
+            height: 48px;
+            width: 150px;
+        }
+        
+
+       
     </style>
 </head>
 <body>
@@ -214,6 +242,8 @@
             Adicionar vaga
           </button>
         </div>
+
+        
           
         <div id="vaga" class="d-flex flex-column align-items-start py-5">            
             <div class="vaga-container">
@@ -226,10 +256,10 @@
                 <span class="vaga-span">1</span>
                 <div class="vaga-status">✅ LIVRE</div>
                 <div class="btn-crono-container">
-                    <button class="btn btn-success btn-crono btn-start"><span class="material-symbols-outlined">
+                    <button class="btn btn-success btn-crono btn-start "><span class="material-symbols-outlined">
                       play_circle
                       </span>Iniciar</button>
-                    <button class="btn btn-warning btn-crono btn-pause"><span class="material-symbols-outlined">
+                    <button class="btn btn-warning btn-crono btn-pause "><span class="material-symbols-outlined">
                       stop_circle
                       </span>Finalizar</button>
                 </div>
@@ -242,6 +272,8 @@
               <button class="btn btn-danger btn-crono btn-reset btn-disabled"><span class="material-symbols-outlined">
                 payments
                 </span>Pagar</button>
+              <div class="alert-message alert-remove">❗ Não é possível remover uma vaga ocupada ❗</div>
+              <div class="alert-message alert-pay">⚠ Finalizar o cronômetro antes de Pagar ⚠</div>
               </div>
               </div>
               </div>
@@ -283,6 +315,10 @@
               
                       // Desabilita o botão "Remover vaga"
                       vagaContainer.querySelector('.btn-remove').disabled = true;
+
+                      // Mostra as mensagens de alerta
+                      vagaContainer.querySelector('.alert-remove').classList.add('show');
+                      vagaContainer.querySelector('.alert-pay').classList.add('show');
               
                       vagaContainer.hours = 0;
                       vagaContainer.minutes = 0;
@@ -321,6 +357,10 @@
                       vagaContainer.querySelector('.vaga-status').textContent = '✅ LIVRE';
               
                       vagaContainer.querySelector('.btn-remove').disabled = false;
+
+                      // Esconde as mensagens de alerta
+                      vagaContainer.querySelector('.alert-remove').classList.remove('show');
+                      vagaContainer.querySelector('.alert-pay').classList.remove('show');
               
                       vagaContainer.querySelector('.total').textContent = 'R$ 0,00';
               
@@ -328,8 +368,12 @@
                   }
               
                   function pagar(vagaContainer) {
-                      //alert('Pagamento realizado: ' + vagaContainer.querySelector('.total').textContent);
-                      resetTimer(vagaContainer);
+                      if (vagaContainer.interval) {
+                          vagaContainer.querySelector('.alert-pay').classList.add('show');
+                      } else {
+                          vagaContainer.querySelector('.alert-pay').classList.remove('show');
+                          resetTimer(vagaContainer);
+                      }
                   }
               
                   function attachButtonListeners(vagaContainer) {
@@ -382,6 +426,8 @@
                           <button class="btn btn-danger btn-crono btn-reset btn-disabled"><span class="material-symbols-outlined">
                             payments
                             </span>Pagar</button>
+                          <div class="alert-message alert-remove">❗ Não é possível remover uma vaga ocupada ❗</div>
+                          <div class="alert-message alert-pay">⚠ Finalizar o cronômetro antes de Pagar ⚠</div>
                       `;
                       document.getElementById('vaga').appendChild(vagaContainer);
                       attachButtonListeners(vagaContainer);
@@ -396,4 +442,3 @@
               </script>
               </body>
               </html>
-              
