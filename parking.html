@@ -84,12 +84,11 @@
             justify-content: baseline;
             background-color: #d3d3d3;
             padding: 10px;
-            height: 50px; /* Altura ajustada para incluir cronômetro e total a pagar */
-            border-radius: 5px;
+                        border-radius: 5px;
         }
-        #cronometro {
+        .cronometro {
             font-size: 1.5em;
-            margin-bottom: 5px; /* Espaçamento entre cronômetro e total a pagar */
+            margin-bottom: 10px; /* Espaçamento entre cronômetro e total a pagar */
         }
         .btn-crono-container {
             display: flex;
@@ -100,7 +99,7 @@
             background-color: #d3d3d3;
             padding: 5px;
             text-align: center;
-            margin-top: 10px; /* Espaçamento superior para afastar do cronômetro */
+            margin-top: 10px;
             border-radius: 5px;
         }
         .total-pagar-container span {
@@ -132,28 +131,53 @@
             height: 48px;
             width: 150px;
         }
+
+        .cab-fix{
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        .topo {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .parent {
+        display: grid;
+        grid-template-columns: 23% 20% 17% 50%;
+        grid-template-rows: 50px;
+        grid-column-gap: 5px;
+        grid-row-gap: 0px;
+        width: 100%;
+        padding-left: 20%;
+
+        }
         
 
        
     </style>
 </head>
 <body>
-    <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
-        <div class="container-fluid d-flex align-items-center">
-          <h1 class="d-flex align-items-center fs-4 text-white mb-0">
-            <img src="img\Brasão-Dois-Irmãos.jpg" width=8% class="me-3" alt="Brasão de Dois Irmãos">
+    <header class="bd-header bg-dark py-2 d-flex align-items-stretch border-bottom border-dark ">
+        <div class="container-fluid d-flex justify-content-center ">
+          <h1 class="d-flex align-items-center fs-4 text-white mb-0 text-center">
+            <img src="img\images.jfif" width=8% class="me-3 ms-3" alt="Logo escola">            
             ESCOLA 29 DE SETEMBRO - MOINHO VELHO - DOIS IRMÃOS - RS
+            <img src="img\Brasão-Dois-Irmãos.jpg" width=8% class="me-3 ms-3" alt="Brasão de Dois Irmãos">
           </h1>                    
         </div>        
       </header>
-      <header class="p-3 text-bg-dark">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-    
-            <h2 class=" justify-content-center ">              
+      
+      <header class="p-2 text-bg-dark ">
+        <div class="container ">
+          <div class="d-flex flex-wrap align-items-center justify-content-center ">     
+            <h2 class=" text-center ">              
               Sistema de Gerenciamento de Estacionamento              
             </h2>            
           </div>
@@ -233,6 +257,36 @@
         });
     </script>
 
+<header class="p-3 text-bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 parent">
+          
+          <li class="nav-link px-6 text-white">Adicionar e remover vagas <span class="material-symbols-outlined">
+            unknown_2
+            </span></li>
+          <li class="nav-link px-4 text-white">Número da vaga <span class="material-symbols-outlined">
+            pin
+            </span></li>
+          <li class="nav-link px-3 text-white">Status da vaga <span class="material-symbols-outlined">
+            directions_car
+            </span></li>
+          <li class="nav-link px-2 text-white"><span class="material-symbols-outlined">
+            timer
+            </span>Controle de acesso e pagamento<span class="material-symbols-outlined">
+                paid
+                </span></li>
+        </ul>
+
+       
+
+        
+      </div>
+    </div>
+  </header>
+
     <div class="col-lg-6 col-xxl-4 my-5 mx-auto">
         <div class="btn-container mb-3">
           <button id="AdVaga" class="btn btn-primary btn-custom" type="button">
@@ -256,19 +310,20 @@
                 <span class="vaga-span">1</span>
                 <div class="vaga-status">✅ LIVRE</div>
                 <div class="btn-crono-container">
-                    <button class="btn btn-success btn-crono btn-start "><span class="material-symbols-outlined">
-                      play_circle
-                      </span>Iniciar</button>
-                    <button class="btn btn-warning btn-crono btn-pause "><span class="material-symbols-outlined">
-                      stop_circle
-                      </span>Finalizar</button>
+                    <button class="btn btn-success btn-crono btn-start">
+                        <span class="material-symbols-outlined">play_circle</span>Iniciar
+                    </button>
+                    <button class="btn btn-warning btn-crono btn-pause">
+                        <span class="material-symbols-outlined">stop_circle</span>Finalizar
+                    </button>
                 </div>
                 <div class="cronometro-container">
-                  <div class="cronometro">00:00:00</div>
-                  <div class="total-pagar-container">
-                      Total a pagar: <span class="total">R$ 0,00</span>
-                  </div>
-              </div>
+                    <div class="cronometro">00:00:00</div>
+                    <div class="total-pagar-container">
+                        Total a pagar: <span class="total">R$ 0,00</span>
+                    </div>
+                </div>
+                
               <button class="btn btn-danger btn-crono btn-reset btn-disabled"><span class="material-symbols-outlined">
                 payments
                 </span>Pagar</button>
