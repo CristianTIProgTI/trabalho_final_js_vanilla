@@ -51,7 +51,7 @@
             background-color: #b3b3b3;
             padding: 20px;
             border-radius: 10px;
-        }
+        } /* deveria ser centralizado em telas menores (talvez usar grid para alinhar com o cabeçalho de títulos) */
         .btn-container { /* botão Adicionar vaga */
             display: flex;
             justify-content: space-between;
@@ -77,7 +77,7 @@
         .invalid-feedback.show { /* Valor por hora mensagem de erro */
             display: block;
         }
-        .cronometro-container {
+        .cronometro-container { /* cronômetro e Total a pagar */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -87,11 +87,11 @@
             border-radius: 5px;
             width: 150px;
         }
-        .cronometro {
+        .cronometro { /* cronômetro */
             font-size: 1.5em;
             margin-bottom: 10px; /* Espaçamento entre cronômetro e total a pagar */
         }
-        .btn-crono-container { /* cronômetro e total a pagar */
+        .btn-crono-container { /* botões Iniciar e Finalizar */
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -113,7 +113,7 @@
             pointer-events: none;
             opacity: 0.65;
         }
-        .alert-message { /* mensagens de erro durante cronômetro ativo */
+        .alert-message { /* mensagens de alerta durante cronômetro ativo */
             display: none;
             color: red;
             font-size: 0.9em;
@@ -124,7 +124,7 @@
         .alert-message.show { /* mensagens de erro? */
             display: block;
         }
-        .alert-pay { /* mensagem de erro durante cronômetro ativo */
+        .alert-pay { /* mensagem de alerta durante cronômetro ativo */
             bottom: -40px; /* Ajuste para garantir que a mensagem apareça abaixo do botão "Pagar" */
             
         }
@@ -157,13 +157,11 @@
         grid-row-gap: 0px;
         width: 100%;
         padding-left: 20%;
-
-        }
-        
-
-       
+        }       
     </style>
+
 </head>
+
 <body>
     <header class="bd-header bg-dark py-2 d-flex align-items-stretch border-bottom border-dark "> <!-- header 1 -->
         <div class="container-fluid d-flex justify-content-center ">
@@ -185,6 +183,7 @@
         </div>
       </header>
 
+      <!-- header 3a -->
       <div class="col-md-7 col-lg-12 mx-auto form-container"> <!-- título do formulário -->
         <h4 class="mb-3">
           <span class="material-symbols-outlined">
@@ -196,6 +195,7 @@
             </span>
         </h4>
 
+        <!-- header 3b -->
         <form class="needs-validation" novalidate> <!-- form p R$/h -->
           <div class="row g-3">
             <div class="col-md-6 mx-auto">
@@ -212,10 +212,10 @@
         </form>
     </div>
 
-    <script>
+    <script> //funções para validar e salvar o Valor por hora        
         const valorPorHora = {}; //p salvar R$/h
 
-        function validateCurrencyInput(input) { //verifica se foram digitado núm em Valor por hora e exibe mensagem de erro
+        function validateCurrencyInput(input) { //verifica se foi digitado núm em Valor por hora e exibe mensagem de erro
             let value = input.value.replace(/\D/g, '');
             if (!value) {
                 document.getElementById('invalid-feedback').classList.add('show');
@@ -246,11 +246,11 @@
             validateCurrencyInput(e.target);
         });
 
-        document.getElementById('ok-button').addEventListener('click', function () { //evento de click do OK (salva valor/hora)
+        document.getElementById('ok-button').addEventListener('click', function () { //evento de click do OK (salva valor/hora) ou...
             storeInputValue();
         });
 
-        document.getElementById('valor').addEventListener('keypress', function (e) { //evento de tecla Enter após digitar o valor/hora (salva valor/hora)
+        document.getElementById('valor').addEventListener('keypress', function (e) { //...evento de tecla Enter após digitar o valor/hora (salva valor/hora)
             if (e.key === 'Enter') {
                 e.preventDefault();
                 storeInputValue();
@@ -258,13 +258,10 @@
         });
     </script>
 
-<header class="p-3 text-bg-dark"> <!-- header 3 :cabeçalho de comandos das vagas (alinhar com comandos vagas)-->
+<header class="p-3 text-bg-dark"> <!-- header 4 :cabeçalho de comandos das vagas (alinhar com comandos vagas ou alinhar a vaga com isto!)-->
     <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 parent">
-          
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> 
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 parent">          
           <li class="nav-link px-6 text-white">Adicionar e remover vagas <span class="material-symbols-outlined">
             unknown_2 <!-- ícone +/- -->
             </span></li>
@@ -277,13 +274,14 @@
           <li class="nav-link px-2 text-white"><span class="material-symbols-outlined">
             timer <!-- ícone cronômetro -->
             </span>Controle de acesso e pagamento<span class="material-symbols-outlined">
-                paid <!-- ícone Pago -->
-                </span></li>
+            paid <!-- ícone Pago -->
+            </span></li>
         </ul>         
       </div>
     </div>
   </header>
 
+    <!-- header 5 -->
     <div class="col-lg-6 col-xxl-4 my-5 mx-auto"> <!-- botão Adicionar vaga -->
         <div class="btn-container mb-3">
           <button id="AdVaga" class="btn btn-primary btn-custom" type="button">
@@ -298,6 +296,7 @@
           
         <div id="vaga" class="d-flex flex-column align-items-start py-5"> <!--Vaga com todos os comandos  -->       
             <div class="vaga-container">
+                <!-- o trecho abaixo será repetido dentro da função adicionarVaga (com diferença apenas na linha com o Número da vaga) -->
                 <button class="btn btn-warning btn-custom btn-remove" type="button" onclick="removerVaga(this)"> <!-- botão para Remover vaga -->
                     <span class="material-symbols-outlined me-1">
                     delete <!-- ícone lixeira -->
@@ -305,7 +304,7 @@
                     Remover vaga
                 </button>
 
-                <span class="vaga-span">1</span> <!-- Número da vaga -->
+                <span class="vaga-span">1</span> <!-- Número da vaga (linha diferente dentro da função adicionarVaga) -->
 
                 <div class="vaga-status">✅ LIVRE</div> <!-- Status da vaga -->
 
@@ -332,180 +331,199 @@
                     </div>
                 </div>
                 
-                <button class="btn btn-danger btn-crono btn-reset btn-disabled"><span class="material-symbols-outlined"> <!-- botão Pagar -->
+                <button class="btn btn-danger btn-crono btn-reset btn-disabled"> <!-- botão Pagar -->
+                    <span class="material-symbols-outlined"> 
                     payments <!-- Ícone pagamento -->
                     </span>
                     Pagar
                 </button>
 
-                <!-- as 2 mensagens abaixo poderiam ser hover ou serem exibidas apenas ao clicar Remover vaga ou Pagar com o cronômetro em andamento -->
+                <!-- as 2 mensagens abaixo poderiam ser 'hover' ou serem exibidas apenas ao clicar Remover vaga ou Pagar com o cronômetro em andamento -->
               <div class="alert-message alert-remove">❗ Não é possível remover uma vaga ocupada ❗</div> <!-- mensagem de alerta ao acionar cronômetro -->
               <div class="alert-message alert-pay">⚠ Finalizar o cronômetro antes de Pagar ⚠</div> <!-- mensagem de alerta ao acionar cronômetro -->
+              <!-- final do trecho que será repetido dentro da função adicionarVaga -->
             </div> <!-- final vaga-container -->
         </div> <!-- final da Vaga -->
               </div> <!-- ? -->
               
-              <script>
+              <script> //funções de Adicionar e Remover vagas, cronômetro e pagamento                    
                   let vagaCounter = 1; // Contador global para número de vagas
               
-                  function formatTimeUnit(unit) {
-                      return unit < 10 ? '0' + unit : unit;
+                  function formatTimeUnit(unit) { // Função para formatar unidades de tempo (horas, minutos, segundos) adicionando um zero à esquerda se necessário
+                      return unit < 10 ? '0' + unit : unit; // Retorna a unidade formatada com dois dígitos
                   }
               
-                  function updateDisplay(vagaContainer) {
-                      const hours = formatTimeUnit(vagaContainer.hours);
+                  function updateDisplay(vagaContainer) { // Função para atualizar a exibição do cronômetro no contêiner da vaga
+                      const hours = formatTimeUnit(vagaContainer.hours); // Obtém as horas, minutos e segundos do contêiner da vaga, formatando-os com dois dígitos
                       const minutes = formatTimeUnit(vagaContainer.minutes);
                       const seconds = formatTimeUnit(vagaContainer.seconds);
-                      vagaContainer.querySelector('.cronometro').textContent = `${hours}:${minutes}:${seconds}`;
+                      vagaContainer.querySelector('.cronometro').textContent = `${hours}:${minutes}:${seconds}`; // Atualiza o conteúdo do elemento com a classe 'cronometro' no contêiner da vaga
                   }
               
-                  function calculateTotalToPay(vagaContainer) {
-                      const totalElement = vagaContainer.querySelector('.total');
-                      const totalHoras = vagaContainer.hours + (vagaContainer.minutes / 60) + (vagaContainer.seconds / 3600);
-                      const valorHora = parseFloat(valorPorHora.valor.replace('.', '').replace(',', '.'));
-                      const total = totalHoras * valorHora;
-                      totalElement.textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+                  function calculateTotalToPay(vagaContainer) { // Função para calcular o total a pagar com base no tempo decorrido e na taxa horária
+                      const totalElement = vagaContainer.querySelector('.total'); // Seleciona o elemento que exibirá o total a pagar dentro do contêiner da vaga
+                      const totalHoras = vagaContainer.hours + (vagaContainer.minutes / 60) + (vagaContainer.seconds / 3600); // Calcula o total de horas decorrido, convertendo minutos e segundos para frações de hora
+                      const valorHora = parseFloat(valorPorHora.valor.replace('.', '').replace(',', '.')); // Converte a string do valor por hora para um número float, substituindo '.' por '' e ',' por '.'
+                      const total = totalHoras * valorHora; // Calcula o total a pagar multiplicando o total de horas pelo valor por hora
+                      totalElement.textContent = 'R$ ' + total.toFixed(2).replace('.', ','); // Atualiza o elemento totalElement com o total a pagar formatado em reais, substituindo '.' por ','
                   }
               
-                  function startTimer(vagaContainer) {
+                  function startTimer(vagaContainer) { // Função para iniciar o cronômetro para um contêiner de vaga
                       if (!valorPorHora.valor) {
-                          alert('Definir um Valor por hora de estacionamento antes de iniciar!');
+                          alert('Definir um Valor por hora de estacionamento antes de iniciar!'); //exibe mensagem de erro ao clicar Iniciar sem ter definido antes um valor/hora
                           return;
                       }
               
-                      if (vagaContainer.interval) return; // Evita múltiplos intervalos
+                      if (vagaContainer.interval) return; // Evita múltiplos intervalos se o cronômetro já estiver rodando
               
-                      // Muda a cor de fundo do span e div dentro do primeiro vaga-container
+                      // Muda a cor de fundo do span e div dentro do primeiro vaga-container quando o cronômetro é iniciado
                       vagaContainer.querySelector('.vaga-span').style.backgroundColor = 'darkred';
                       vagaContainer.querySelector('.vaga-status').style.backgroundColor = 'lightcoral';
                       vagaContainer.querySelector('.vaga-status').textContent = '❌ OCUPADA';
               
-                      // Desabilita o botão "Remover vaga"
+                      // Desabilita o botão "Remover vaga" enquanto o cronômetro está ativo
                       vagaContainer.querySelector('.btn-remove').disabled = true;
 
-                      // Mostra as mensagens de alerta
+                      // Mostra as mensagens de alerta enquanto o cronômetro está ativo (Não é possível remover... e Finalizar o cronômetro...)
                       vagaContainer.querySelector('.alert-remove').classList.add('show');
                       vagaContainer.querySelector('.alert-pay').classList.add('show');
               
-                      vagaContainer.hours = 0;
+                      vagaContainer.hours = 0; // Inicializa as variáveis de horas, minutos e segundos no contêiner da vaga
                       vagaContainer.minutes = 0;
                       vagaContainer.seconds = 0;
               
-                      vagaContainer.interval = setInterval(() => {
-                          vagaContainer.seconds++;
-                          if (vagaContainer.seconds === 60) {
+                      vagaContainer.interval = setInterval(() => { // Define o intervalo para incrementar o cronômetro a cada segundo
+                          vagaContainer.seconds++; // Incrementa os segundos
+                          if (vagaContainer.seconds === 60) { // Se os segundos atingirem 60, reseta para 0 e incrementa os minutos
                               vagaContainer.seconds = 0;
                               vagaContainer.minutes++;
                           }
-                          if (vagaContainer.minutes === 60) {
+                          if (vagaContainer.minutes === 60) { // Se os minutos atingirem 60, reseta para 0 e incrementa as horas
                               vagaContainer.minutes = 0;
                               vagaContainer.hours++;
                           }
-                          updateDisplay(vagaContainer);
-                      }, 1000);
+                          updateDisplay(vagaContainer); // Atualiza a exibição do cronômetro
+                      }, 1000); // Intervalo de 1 segundo
                   }
               
-                  function pauseTimer(vagaContainer) {
-                      clearInterval(vagaContainer.interval);
-                      vagaContainer.interval = null;
-                      calculateTotalToPay(vagaContainer);
-                      vagaContainer.querySelector('.btn-reset').classList.remove('btn-disabled');
+                  function pauseTimer(vagaContainer) { // Função para pausar o cronômetro
+                      clearInterval(vagaContainer.interval); // Limpa o intervalo do cronômetro
+                      vagaContainer.interval = null; // Reseta o intervalo do cronômetro
+                      calculateTotalToPay(vagaContainer); // Calcula o total a pagar
+                      vagaContainer.querySelector('.btn-reset').classList.remove('btn-disabled');  // Habilita o botão de reset
                   }
               
-                  function resetTimer(vagaContainer) {
-                      pauseTimer(vagaContainer);
-                      vagaContainer.hours = 0;
+                  function resetTimer(vagaContainer) { // Função para resetar o cronômetro e pagar o estacionamento
+                      pauseTimer(vagaContainer); // Pausa o cronômetro
+                      vagaContainer.hours = 0; // Reseta o cronômetro
                       vagaContainer.minutes = 0;
                       vagaContainer.seconds = 0;
-                      updateDisplay(vagaContainer);
+                      updateDisplay(vagaContainer); // Atualiza a exibição do cronômetro
               
-                      vagaContainer.querySelector('.vaga-span').style.backgroundColor = 'green';
+                      vagaContainer.querySelector('.vaga-span').style.backgroundColor = 'green'; //retorna às configurações de Vaga Livre após o pagamento do estacionamento
                       vagaContainer.querySelector('.vaga-status').style.backgroundColor = 'lightgreen';
                       vagaContainer.querySelector('.vaga-status').textContent = '✅ LIVRE';
               
-                      vagaContainer.querySelector('.btn-remove').disabled = false;
+                      vagaContainer.querySelector('.btn-remove').disabled = false; // Habilita novamente o botão "Remover vaga" após o pagamento
 
-                      // Esconde as mensagens de alerta
+                      // Esconde as mensagens de alerta após o pagamento do estacionamento
                       vagaContainer.querySelector('.alert-remove').classList.remove('show');
                       vagaContainer.querySelector('.alert-pay').classList.remove('show');
               
-                      vagaContainer.querySelector('.total').textContent = 'R$ 0,00';
+                      vagaContainer.querySelector('.total').textContent = 'R$ 0,00'; // Reseta o valor total a pagar
               
-                      vagaContainer.querySelector('.btn-reset').classList.add('btn-disabled');
+                      vagaContainer.querySelector('.btn-reset').classList.add('btn-disabled'); // Desabilita o botão de reset (Pagar) até que Finalizar seja clicado novamente
                   }
               
-                  function pagar(vagaContainer) {
-                      if (vagaContainer.interval) {
+                  function pagar(vagaContainer) { // Função para efetuar o pagamento
+                      if (vagaContainer.interval) { // Se o cronômetro estiver ativo, mostra a mensagem de alerta...
                           vagaContainer.querySelector('.alert-pay').classList.add('show');
-                      } else {
+                      } else { // ... Caso contrário, esconde a mensagem de alerta e reseta o cronômetro
                           vagaContainer.querySelector('.alert-pay').classList.remove('show');
                           resetTimer(vagaContainer);
                       }
                   }
               
-                  function attachButtonListeners(vagaContainer) {
-                      const startButton = vagaContainer.querySelector('.btn-start');
-                      const pauseButton = vagaContainer.querySelector('.btn-pause');
-                      const resetButton = vagaContainer.querySelector('.btn-reset');
+                  function attachButtonListeners(vagaContainer) { //funções para Controle de acesso e pagamento (adiciona ouvintes de eventos)
+                      const startButton = vagaContainer.querySelector('.btn-start'); // Seleciona o botão "Iniciar"
+                      const pauseButton = vagaContainer.querySelector('.btn-pause'); // Seleciona o botão "Finalizar"
+                      const resetButton = vagaContainer.querySelector('.btn-reset'); // Seleciona o botão "Pagar"
               
-                      startButton.addEventListener('click', function() {
+                      startButton.addEventListener('click', function() { //Iniciar o cronômetro
                           startTimer(vagaContainer);
                       });
               
-                      pauseButton.addEventListener('click', function() {
+                      pauseButton.addEventListener('click', function() { //Finalizar o cronômetro e calcular o total a pagar
                           pauseTimer(vagaContainer);
                       });
               
-                      resetButton.addEventListener('click', function() {
+                      resetButton.addEventListener('click', function() { //Pagar e resetar o cronômetro
                           pagar(vagaContainer);
                       });
                   }
               
-                  attachButtonListeners(document.querySelector('.vaga-container'));
+                  attachButtonListeners(document.querySelector('.vaga-container')); // Chama a função para adicionar ouvintes de eventos ao contêiner da vaga (acima)
               
-                  function adicionarVaga() {
-                      vagaCounter++;
+                  function adicionarVaga() { //Adiciona uma nova vaga com todos os seus comandos e elementos
+                      vagaCounter++; //cria um número sequencial para a nova vaga
                       const vagaContainer = document.createElement('div');
                       vagaContainer.className = 'vaga-container';
-                      vagaContainer.innerHTML = `
+                      //o trecho abaixo entre aspas simples ('') é uma cópia de trecho do html dentro de <div class="vaga-container"> (com diferença apenas na linha <span class="vaga-span">${vagaCounter}</span>)
+                    //...este conteúdo será adicionado dentro de uma nova vaga quando ela for criada
+                      vagaContainer.innerHTML = ` 
                           <button class="btn btn-warning btn-custom btn-remove" type="button" onclick="removerVaga(this)">
                               <span class="material-symbols-outlined me-1">
                               delete
                               </span>
                               Remover vaga
                           </button>
+
                           <span class="vaga-span">${vagaCounter}</span>
+
                           <div class="vaga-status">✅ LIVRE</div>
+
                           <div class="btn-crono-container">
-                              <button class="btn btn-success btn-crono btn-start"><span class="material-symbols-outlined">
+                              <button class="btn btn-success btn-crono btn-start">
+                                <span class="material-symbols-outlined">
                                 play_circle
-                                </span>Iniciar</button>
-                              <button class="btn btn-warning btn-crono btn-pause"><span class="material-symbols-outlined">
+                                </span>
+                                Iniciar
+                                </button>
+
+                              <button class="btn btn-warning btn-crono btn-pause">
+                                <span class="material-symbols-outlined">
                                 stop_circle
-                                </span>Finalizar</button>
+                                </span>
+                                Finalizar
+                                </button>
                           </div>
+
                           <div class="cronometro-container">
                               <div class="cronometro">00:00:00</div>
                               <div class="total-pagar-container">
                                   Total a pagar: <span class="total">R$ 0,00</span>
                               </div>
                           </div>
+
                           <button class="btn btn-danger btn-crono btn-reset btn-disabled"><span class="material-symbols-outlined">
                             payments
-                            </span>Pagar</button>
+                            </span>
+                            Pagar
+                            </button>
+
                           <div class="alert-message alert-remove">❗ Não é possível remover uma vaga ocupada ❗</div>
                           <div class="alert-message alert-pay">⚠ Finalizar o cronômetro antes de Pagar ⚠</div>
                       `;
-                      document.getElementById('vaga').appendChild(vagaContainer);
+                      document.getElementById('vaga').appendChild(vagaContainer); //adiciona o conteúdo à nova vaga
                       attachButtonListeners(vagaContainer);
                   }
               
-                  function removerVaga(button) {
+                  function removerVaga(button) { //remove a vaga
                       const vagaContainer = button.parentElement;
                       vagaContainer.remove();
                   }
               
-                  document.getElementById('AdVaga').addEventListener('click', adicionarVaga);
+                  document.getElementById('AdVaga').addEventListener('click', adicionarVaga); //adiciona uma nova vaga
               </script>
               </body>
               </html>
